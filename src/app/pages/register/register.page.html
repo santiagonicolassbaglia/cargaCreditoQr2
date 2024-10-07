@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registrarse</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input type="text" formControlName="name"></ion-input>
+    </ion-item>
+    <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+      <small class="error">El nombre es requerido.</small>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+      <small class="error">Email es requerido y debe tener un formato válido.</small>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+      <small class="error">La contraseña es requerida (mínimo 6 caracteres).</small>
+    </div>
+
+    <!-- Campo para seleccionar el perfil del usuario -->
+    <ion-item>
+      <ion-label position="floating">Perfil</ion-label>
+      <ion-select formControlName="perfil">
+        <ion-select-option value="admin">Admin</ion-select-option>
+        <ion-select-option value="invitado">Invitado</ion-select-option>
+        <ion-select-option value="usuario">Usuario</ion-select-option>
+        <ion-select-option value="tester">Tester</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Campo para seleccionar el sexo del usuario -->
+    <ion-item>
+      <ion-label position="floating">Sexo</ion-label>
+      <ion-select formControlName="sexo">
+        <ion-select-option value="masculino">Masculino</ion-select-option>
+        <ion-select-option value="femenino">Femenino</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="registerForm.invalid">Registrarse</ion-button>
+  </form>
+</ion-content>

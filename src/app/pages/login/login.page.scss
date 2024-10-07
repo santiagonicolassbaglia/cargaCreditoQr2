@@ -1,0 +1,90 @@
+.login-container {
+ //   background-image: url('../../../assets/fondoPantalla1.png'); /* Imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    padding: 20px;
+  }
+  
+  .login-card {
+    border: 2px solid #0b619a; /* Borde azul claro */
+    border-radius: 30px;
+    padding: 30px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.884); /* Fondo blanco con transparencia */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.858); /* Sombra suave */
+    text-align: center;
+  }
+  
+  .login-card h2 {
+    color: #072b43; /* Azul claro */
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .login-card p {
+    color: #666;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .form-label {
+    color: #333;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #3498db; /* Borde azul claro */
+    border-radius: 15px;
+    background-color: #fff5f5; /* Fondo blanco rosado */
+    color: #333;
+    font-size: 1rem;
+  }
+  
+  .error-message {
+    color: #ff0000;
+    font-size: 0.8rem;
+  }
+  
+  ion-button {
+    --border-radius: 25px;
+    --background: #f1c40f; /* Amarillo claro */
+    --background-hover: #ffcc00; /* Color al pasar el cursor */
+    font-size: 1.2rem;
+    padding: 10px;
+    margin-top: 20px;
+  }
+  
+  .login-options {
+    margin-top: 40px;
+  }
+  
+  .login-options ion-button {
+    --border-radius: 20px;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+  }
+  
+  ion-toolbar {
+    --background: #ffd966; /* Color pastel en la barra */
+  }
+  
+  //agregar fondo de pantalla a la pagina
+  ion-content {
+  //  --background: url('../../../assets/fondoPantalla1.png') no-repeat center center fixed;
+    --background-size: cover;
+  }
+  

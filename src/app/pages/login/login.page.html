@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Juego de la memoria</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="login-container">
+
+  <!-- Formulario de inicio de sesión -->
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="login-card">
+      <h2>¡Bienvenido al juego de la memoria!</h2>
+      <p>Encuentra los pares y desbloquea niveles</p>
+
+      <!-- Input de Email -->
+      <div class="form-group">
+        <label for="email" class="form-label">Correo electrónico</label>
+        <input id="email" type="email" formControlName="email" class="form-control" placeholder="Ingresa tu correo"/>
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-message">
+          <small>Email es requerido y debe tener un formato válido.</small>
+        </div>
+      </div>
+
+      <!-- Input de Contraseña -->
+      <div class="form-group">
+        <label for="password" class="form-label">Contraseña</label>
+        <input id="password" type="password" formControlName="password" class="form-control" placeholder="Ingresa tu contraseña"/>
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+          <small>La contraseña es requerida (mínimo 6 caracteres).</small>
+        </div>
+      </div>
+
+      <!-- Botón de Iniciar Sesión -->
+      <ion-button expand="block" type="submit" [disabled]="loginForm.invalid" color="secondary">
+        INICIAR SESIÓN
+      </ion-button>
+
+    </div>
+
+    <!-- Botones de ingreso rápido y Registrarse -->
+    <div class="login-options">
+      <ion-button expand="block" (click)="goToRegister()" color="tertiary">
+        REGISTRARSE
+      </ion-button>
+      <ion-button expand="block" (click)="fillForm(user)" color="warning" *ngFor="let user of quickUsers">
+        {{ user.correo }}
+      </ion-button>
+    </div>
+
+  </form>
+
+</ion-content>
