@@ -1,0 +1,7 @@
+{
+  "name": "cargaCreditoQr2",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
