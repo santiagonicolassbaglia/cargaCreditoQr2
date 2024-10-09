@@ -50,13 +50,15 @@ export class AuthService {
 
   // Función para agregar créditos
   async agregarCreditos(uid: string, codigoQR: string, credito: number): Promise<void> {
+    console.log('UID: ', uid, 'Código QR: ', codigoQR, 'Créditos: ', credito); // Verifica que se reciban los datos correctamente
+  
     const userRef = doc(this.firestore, `usuarios/${uid}`);
     const userDoc = await getDoc(userRef);
     
     if (userDoc.exists()) {
       const userData = userDoc.data();
       const codigosCargados = userData["codigosCargados"] || [];
-
+  
       // Verificar si el código ya fue cargado
       if (codigosCargados.includes(codigoQR)) {
         if (userData["perfil"] === 'admin' && codigosCargados.filter((c: string) => c === codigoQR).length < 2) {
@@ -64,6 +66,7 @@ export class AuthService {
             creditos: userData["creditos"] + credito,
             codigosCargados: arrayUnion(codigoQR)
           });
+          console.log('Créditos actualizados correctamente'); // Verifica que no haya errores
         } else {
           throw new Error('Este código ya ha sido cargado más de dos veces para el perfil admin.');
         }
@@ -73,6 +76,7 @@ export class AuthService {
           creditos: userData["creditos"] + credito,
           codigosCargados: arrayUnion(codigoQR)
         });
+        console.log('Créditos agregados correctamente'); // Verifica que no haya errores
       }
     } else {
       throw new Error('Usuario no encontrado');
@@ -97,11 +101,13 @@ export class AuthService {
     return this.auth.currentUser;
   }
 
-  setAlarmActivated(state: boolean) {
-    this.alarmActivated = state;
-  }
-
-  isAlarmActivated(): boolean {
-    return this.alarmActivated;
+  async getUserData(uid: string) {
+    const userRef = doc(this.firestore, `usuarios/${uid}`);
+    const userDoc = await getDoc(userRef);
+    if (userDoc.exists()) {
+      return userDoc.data();
+    } else {
+      throw new Error('Usuario no encontrado');
+    }
   }
 }
