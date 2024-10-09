@@ -2,61 +2,64 @@ import { Component } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonCardContent, IonCard } from '@ionic/angular/standalone';
 import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AuthService } from '../services/auth.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonCard, IonCardContent, IonButton, IonHeader, IonToolbar, IonTitle, IonContent],
+  imports: [IonCard, IonCardContent, IonButton, IonHeader, IonToolbar, IonTitle, IonContent,NgIf],
 })
 export class HomePage {
   creditosAcumulados: number = 0; // Estado para almacenar los créditos
+  mensaje: string = ''; // Variable para mostrar mensajes
 
   constructor(private authService: AuthService) {}
 
   async scanQrCode() {
     const user = this.authService.getCurrentUser();
     if (!user) {
-      alert('Debes estar autenticado para escanear códigos QR.');
+      this.mensaje = 'Debes estar autenticado para escanear códigos QR.';
       return;
     }
-  
+
     try {
       const result = await BarcodeScanner.scan();
       console.log('Scanned QR result: ', result);
-  
+
       if (result?.barcodes?.length > 0) {
         const qrContent = result.barcodes[0].displayValue.trim(); // Limpiar espacios
         console.log('Contenido del QR: ', qrContent);
-  
+
         const creditos = this.getCreditosPorCodigo(qrContent);
         if (creditos > 0) {
           try {
             await this.authService.agregarCreditos(user.uid, qrContent, creditos);
             console.log('Créditos agregados correctamente');
-  
+
             const userDoc = await this.authService.getUserData(user.uid);
             if (userDoc) {
               this.creditosAcumulados = userDoc['creditos'];
               console.log('Créditos acumulados: ', this.creditosAcumulados);
+              this.mensaje = 'Créditos agregados correctamente.';
             }
           } catch (error) {
             console.error('Error al agregar créditos:', error);
-            alert((error as Error).message);  // Mostrar mensaje de error
+            this.mensaje = (error as Error).message;  // Mostrar mensaje de error
           }
         } else {
-          alert('Código QR no válido.');
+          this.mensaje = 'Código QR no válido.';
         }
       } else {
-        alert('No se encontró un código QR.');
+        this.mensaje = 'No se encontró un código QR.';
       }
     } catch (error) {
       console.error('Error scanning QR code: ', error);
-      alert('Error al escanear el código QR.');
+      this.mensaje = 'Error al escanear el código QR.';
     }
   }
-  
+
   // Método para obtener créditos según el código QR
   getCreditosPorCodigo(codigoQR: string): number {
     const codigos: { [key: string]: number } = {
@@ -78,7 +81,7 @@ export class HomePage {
       await this.authService.limpiarCreditos(user.uid);
       this.creditosAcumulados = 0; // Resetear el visor de créditos
       console.log('Créditos limpiados');
-      alert('Créditos limpiados.');
+      this.mensaje = 'Créditos limpiados.';
     }
   }
 }

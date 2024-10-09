@@ -3,57 +3,91 @@
   padding: 20px;
 
   h2 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    color: #3880ff;
+    font-size: 2.5rem; /* Un poco más grande para mayor impacto */
+    margin-bottom: 15px;
+    color: #3b82f6; /* Un azul más moderno */
+    font-weight: 600; /* Un poco más grueso para mejorar el contraste */
   }
 
   p {
-    font-size: 1.2rem;
-    color: #666;
+    font-size: 1.1rem; /* Ajuste para mejorar la legibilidad */
+    color: #4b5563; /* Un gris oscuro más suave */
+    margin-bottom: 25px;
   }
 }
 
 .creditos-container {
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin-top: 25px;
+  margin-bottom: 35px;
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: #10dc60;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: 500;
   }
 
   .creditos-card {
-    background: #f4f4f4;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+  }
+
+  .creditos-card:hover {
+    transform: translateY(-5px); /* Efecto flotante al hacer hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   }
 
   h1 {
-    font-size: 3rem;
+    font-size: 3.5rem; /* Mayor para enfatizar los créditos */
     color: #000;
     margin: 0;
-    font-weight: bold;
+    font-weight: 700;
   }
 }
 
 .scan-button, .limpiar-button {
-  --border-radius: 20px;
-  --padding-start: 20px;
-  --padding-end: 20px;
-  --min-height: 50px;
+  --border-radius: 25px; /* Más redondeado para un estilo moderno */
+  --padding-start: 25px;
+  --padding-end: 25px;
+  --min-height: 55px; /* Botones un poco más altos */
+  font-size: 1.1rem;
+  font-weight: 600;
   margin-bottom: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transiciones para los botones */
 }
 
 .scan-button {
-  background: linear-gradient(45deg, #3880ff, #3dc2ff);
+  background: linear-gradient(45deg, #3b82f6, #60a5fa); /* Ajuste en los colores para un mejor degradado */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scan-button:hover {
+  transform: scale(1.05); /* Efecto de agrandamiento al hacer hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 .limpiar-button {
-  background: linear-gradient(45deg, #eb445a, #f25454);
+  background: linear-gradient(45deg, #ef4444, #f87171); /* Colores más intensos para el botón de limpiar */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.limpiar-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 ion-content {
-  --background: #f0f8ff;
+  --background: #f0f8ff; /* Fondo claro y limpio */
+}
+
+.mensaje-card {
+  background: #fef3c7; /* Fondo amarillo suave para mensajes */
+  color: #92400e; /* Color de texto oscuro para buena legibilidad */
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  font-size: 1.2rem;
 }

@@ -19,6 +19,13 @@
       </ion-card>
     </div>
 
+    <!-- Muestra los mensajes -->
+    <ion-card *ngIf="mensaje" class="mensaje-card">
+      <ion-card-content>
+        <p>{{ mensaje }}</p>
+      </ion-card-content>
+   </ion-card>
+   
     <!-- Botón para escanear QR -->
     <ion-button expand="block" color="primary" (click)="scanQrCode()" class="scan-button">
       Escanear QR

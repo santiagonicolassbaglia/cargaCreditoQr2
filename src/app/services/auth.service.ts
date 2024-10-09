@@ -59,30 +59,28 @@ export class AuthService {
             const codigosCargados = userData["codigosCargados"] || [];
             const perfil = userData["perfil"] || 'usuario';  // Suponiendo que el perfil sea 'usuario' o 'admin'
 
-            // Verificar si el código ya fue cargado
+            // Verificar cuántas veces se ha cargado el código QR
             const vecesCargado = codigosCargados.filter((codigo: string) => codigo === codigoQR).length;
-
-            if (vecesCargado > 0) {
-                // Si el perfil es "admin", puede cargar hasta dos veces
-                if (perfil === 'admin' && vecesCargado < 2) {
-                    await updateDoc(userRef, {
-                        creditos: userData["creditos"] + credito,
-                        codigosCargados: arrayUnion(codigoQR)
-                    });
-                    console.log('Créditos agregados correctamente (admin, segunda carga)');
-                } else if (perfil === 'admin' && vecesCargado >= 2) {
-                    throw new Error('Este código ya ha sido cargado más de dos veces (admin).');
-                } else {
-                    throw new Error('Este código ya ha sido cargado.');
-                }
-            } else {
-                // Agregar el crédito si no está cargado
-                await updateDoc(userRef, {
-                    creditos: userData["creditos"] + credito,
-                    codigosCargados: arrayUnion(codigoQR)
-                });
-                console.log('Créditos agregados correctamente');
+   // Lógica para perfil admin (máximo 2 veces)
+   
+   if (perfil === 'admin' && vecesCargado >= 2) {
+                throw new Error('Este código ya ha sido cargado más de dos veces (admin).');
             }
+            // Lógica para perfil normal
+            if (vecesCargado > 0 && perfil !== 'admin') {
+                throw new Error('Este código ya ha sido cargado.');
+            }
+
+          
+           
+
+            // Si todo está bien, agregamos el crédito
+            await updateDoc(userRef, {
+                creditos: userData["creditos"] + credito,
+                codigosCargados: arrayUnion(codigoQR)
+            });
+
+            console.log('Créditos agregados correctamente');
         } else {
             throw new Error('Usuario no encontrado');
         }
@@ -91,6 +89,7 @@ export class AuthService {
         throw error;
     }
 }
+
 
 
   // Función para limpiar los créditos y códigos cargados
