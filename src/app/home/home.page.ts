@@ -21,25 +21,21 @@ export class HomePage {
       alert('Debes estar autenticado para escanear códigos QR.');
       return;
     }
-
+  
     try {
-      // Escanea el código QR
       const result = await BarcodeScanner.scan();
       console.log('Scanned QR result: ', result);
-
+  
       if (result?.barcodes?.length > 0) {
         const qrContent = result.barcodes[0].displayValue.trim(); // Limpiar espacios
         console.log('Contenido del QR: ', qrContent);
-
-        // Verificar los créditos asociados al código QR
+  
         const creditos = this.getCreditosPorCodigo(qrContent);
         if (creditos > 0) {
           try {
-            // Agregar créditos al usuario en Firestore
             await this.authService.agregarCreditos(user.uid, qrContent, creditos);
             console.log('Créditos agregados correctamente');
-
-            // Actualizar los créditos en el visor
+  
             const userDoc = await this.authService.getUserData(user.uid);
             if (userDoc) {
               this.creditosAcumulados = userDoc['creditos'];
@@ -47,14 +43,12 @@ export class HomePage {
             }
           } catch (error) {
             console.error('Error al agregar créditos:', error);
-            alert((error as Error).message);
+            alert((error as Error).message);  // Mostrar mensaje de error
           }
         } else {
-          console.log('Código QR no válido.');
           alert('Código QR no válido.');
         }
       } else {
-        console.log('No QR code found.');
         alert('No se encontró un código QR.');
       }
     } catch (error) {
@@ -62,7 +56,7 @@ export class HomePage {
       alert('Error al escanear el código QR.');
     }
   }
-
+  
   // Método para obtener créditos según el código QR
   getCreditosPorCodigo(codigoQR: string): number {
     const codigos: { [key: string]: number } = {

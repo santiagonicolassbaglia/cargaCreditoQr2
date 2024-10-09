@@ -50,37 +50,48 @@ export class AuthService {
 
   // Función para agregar créditos
   async agregarCreditos(uid: string, codigoQR: string, credito: number): Promise<void> {
-    console.log('UID: ', uid, 'Código QR: ', codigoQR, 'Créditos: ', credito);  
-    const userRef = doc(this.firestore, `usuarios/${uid}`);
-    const userDoc = await getDoc(userRef);
-    
-    if (userDoc.exists()) {
-      const userData = userDoc.data();
-      const codigosCargados = userData["codigosCargados"] || [];
-  
-      // Verificar si el código ya fue cargado
-      if (codigosCargados.includes(codigoQR)) {
-        if (userData["perfil"] === 'admin' && codigosCargados.filter((c: string) => c === codigoQR).length < 2) {
-          await updateDoc(userRef, {
-            creditos: userData["creditos"] + credito,
-            codigosCargados: arrayUnion(codigoQR)
-          });
-          console.log('Créditos actualizados correctamente'); // Verifica que no haya errores
+    try {
+        const userRef = doc(this.firestore, `usuarios/${uid}`);
+        const userDoc = await getDoc(userRef);
+
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            const codigosCargados = userData["codigosCargados"] || [];
+            const perfil = userData["perfil"] || 'usuario';  // Suponiendo que el perfil sea 'usuario' o 'admin'
+
+            // Verificar si el código ya fue cargado
+            const vecesCargado = codigosCargados.filter((codigo: string) => codigo === codigoQR).length;
+
+            if (vecesCargado > 0) {
+                // Si el perfil es "admin", puede cargar hasta dos veces
+                if (perfil === 'admin' && vecesCargado < 2) {
+                    await updateDoc(userRef, {
+                        creditos: userData["creditos"] + credito,
+                        codigosCargados: arrayUnion(codigoQR)
+                    });
+                    console.log('Créditos agregados correctamente (admin, segunda carga)');
+                } else if (perfil === 'admin' && vecesCargado >= 2) {
+                    throw new Error('Este código ya ha sido cargado más de dos veces (admin).');
+                } else {
+                    throw new Error('Este código ya ha sido cargado.');
+                }
+            } else {
+                // Agregar el crédito si no está cargado
+                await updateDoc(userRef, {
+                    creditos: userData["creditos"] + credito,
+                    codigosCargados: arrayUnion(codigoQR)
+                });
+                console.log('Créditos agregados correctamente');
+            }
         } else {
-          throw new Error('Este código ya ha sido cargado más de dos veces para el perfil admin.');
+            throw new Error('Usuario no encontrado');
         }
-      } else {
-        // Agregar el crédito si no está cargado
-        await updateDoc(userRef, {
-          creditos: userData["creditos"] + credito,
-          codigosCargados: arrayUnion(codigoQR)
-        });
-        console.log('Créditos agregados correctamente');  
-      }
-    } else {
-      throw new Error('Usuario no encontrado');
+    } catch (error) {
+        console.error('Error al agregar créditos:', error);
+        throw error;
     }
-  }
+}
+
 
   // Función para limpiar los créditos y códigos cargados
   async limpiarCreditos(uid: string): Promise<void> {
