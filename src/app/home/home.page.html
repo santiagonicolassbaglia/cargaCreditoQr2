@@ -1,20 +1,32 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Acumula Créditos</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <div class="container">
+    <h2>Bienvenido</h2>
+    <p>Escanea un código QR para acumular créditos.</p>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <!-- Muestra los créditos acumulados -->
+    <div class="creditos-container">
+      <h3>Créditos Acumulados</h3>
+      <ion-card class="creditos-card">
+        <ion-card-content>
+          <h1 id="creditos-acumulados">0</h1>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Botón para escanear QR -->
+    <ion-button expand="block" color="primary" (click)="scanQrCode()" class="scan-button">
+      Escanear QR
+    </ion-button>
+
+    <!-- Botón para limpiar créditos -->
+    <ion-button expand="block" color="danger" (click)="limpiarCreditos()" class="limpiar-button">
+      Limpiar Créditos
+    </ion-button>
   </div>
 </ion-content>

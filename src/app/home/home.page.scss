@@ -1,27 +1,59 @@
-#container {
+.container {
   text-align: center;
+  padding: 20px;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #3880ff;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: #666;
+  }
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.creditos-container {
+  margin-top: 20px;
+  margin-bottom: 30px;
+
+  h3 {
+    font-size: 1.5rem;
+    color: #10dc60;
+    margin-bottom: 10px;
+  }
+
+  .creditos-card {
+    background: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    font-size: 3rem;
+    color: #000;
+    margin: 0;
+    font-weight: bold;
+  }
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+.scan-button, .limpiar-button {
+  --border-radius: 20px;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  --min-height: 50px;
+  margin-bottom: 20px;
 }
 
-#container a {
-  text-decoration: none;
+.scan-button {
+  background: linear-gradient(45deg, #3880ff, #3dc2ff);
+}
+
+.limpiar-button {
+  background: linear-gradient(45deg, #eb445a, #f25454);
+}
+
+ion-content {
+  --background: #f0f8ff;
 }
