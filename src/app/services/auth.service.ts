@@ -50,8 +50,7 @@ export class AuthService {
 
   // Función para agregar créditos
   async agregarCreditos(uid: string, codigoQR: string, credito: number): Promise<void> {
-    console.log('UID: ', uid, 'Código QR: ', codigoQR, 'Créditos: ', credito); // Verifica que se reciban los datos correctamente
-  
+    console.log('UID: ', uid, 'Código QR: ', codigoQR, 'Créditos: ', credito);  
     const userRef = doc(this.firestore, `usuarios/${uid}`);
     const userDoc = await getDoc(userRef);
     
@@ -76,7 +75,7 @@ export class AuthService {
           creditos: userData["creditos"] + credito,
           codigosCargados: arrayUnion(codigoQR)
         });
-        console.log('Créditos agregados correctamente'); // Verifica que no haya errores
+        console.log('Créditos agregados correctamente');  
       }
     } else {
       throw new Error('Usuario no encontrado');
