@@ -1,6 +1,8 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Acumula Créditos</ion-title>
+    <!-- Botón para cerrar sesión -->
+    <ion-button slot="end" color="danger" (click)="logout()">Cerrar Sesión</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -14,7 +16,7 @@
       <h3>Créditos Acumulados</h3>
       <ion-card class="creditos-card">
         <ion-card-content>
-          <h1 id="creditos-acumulados">{{ creditosAcumulados }}</h1> <!-- Mostrar créditos dinámicamente -->
+          <h1 id="creditos-acumulados">{{ creditosAcumulados }}</h1>
         </ion-card-content>
       </ion-card>
     </div>
@@ -25,7 +27,7 @@
         <p>{{ mensaje }}</p>
       </ion-card-content>
    </ion-card>
-   
+
     <!-- Botón para escanear QR -->
     <ion-button expand="block" color="primary" (click)="scanQrCode()" class="scan-button">
       Escanear QR
@@ -35,5 +37,8 @@
     <ion-button expand="block" color="danger" (click)="limpiarCreditos()" class="limpiar-button">
       Limpiar Créditos
     </ion-button>
+  </div>
+  <div class="splash-logo" style="height: 2rem; width: 10rem; margin: auto;" >
+    <img src="../../../../assets/icon/favicon.png" alt="Splash Image" class="animate__animated animate__rotate splash-image"/>
   </div>
 </ion-content>

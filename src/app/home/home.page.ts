@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonCardContent, IonCard } from '@ionic/angular/standalone';
 import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { AuthService } from '../services/auth.service';
 import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -11,11 +12,32 @@ import { NgIf } from '@angular/common';
   standalone: true,
   imports: [IonCard, IonCardContent, IonButton, IonHeader, IonToolbar, IonTitle, IonContent,NgIf],
 })
-export class HomePage {
-  creditosAcumulados: number = 0; // Estado para almacenar los créditos
-  mensaje: string = ''; // Variable para mostrar mensajes
+export class HomePage implements OnInit {
 
-  constructor(private authService: AuthService) {}
+  creditosAcumulados: number = 0; // Almacenar los créditos
+  contadorCreditosAdmin: { [key: string]: number } = {}; // Contador para admin por cada código QR
+  mensaje: string = ''; // Para mostrar mensajes
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  async ngOnInit() {
+    const user = this.authService.getCurrentUser();
+    if (user) {
+      try {
+        // Cargar los datos del usuario al iniciar la aplicación
+        const userData = await this.authService.getUserData(user.uid);
+        if (userData) {
+          this.creditosAcumulados = userData['creditos'] || 0;
+          this.contadorCreditosAdmin = userData['contadorCreditosAdmin'] || {};
+        }
+      } catch (error) {
+        console.error('Error al cargar los datos del usuario:', error);
+        this.mensaje = 'Error al cargar los datos.';
+      }
+    } else {
+      this.mensaje = 'Debes estar autenticado para acceder a los créditos.';
+    }
+  }
 
   async scanQrCode() {
     const user = this.authService.getCurrentUser();
@@ -30,23 +52,21 @@ export class HomePage {
 
       if (result?.barcodes?.length > 0) {
         const qrContent = result.barcodes[0].displayValue.trim(); // Limpiar espacios
-        console.log('Contenido del QR: ', qrContent);
-
         const creditos = this.getCreditosPorCodigo(qrContent);
         if (creditos > 0) {
           try {
             await this.authService.agregarCreditos(user.uid, qrContent, creditos);
-            console.log('Créditos agregados correctamente');
-
-            const userDoc = await this.authService.getUserData(user.uid);
-            if (userDoc) {
-              this.creditosAcumulados = userDoc['creditos'];
-              console.log('Créditos acumulados: ', this.creditosAcumulados);
+            
+            // Recargar los datos de créditos después de agregar
+            const userData = await this.authService.getUserData(user.uid);
+            if (userData) {
+              this.creditosAcumulados = userData['creditos'];
+              this.contadorCreditosAdmin = userData['contadorCreditosAdmin'] || {};
               this.mensaje = 'Créditos agregados correctamente.';
             }
           } catch (error) {
             console.error('Error al agregar créditos:', error);
-            this.mensaje = (error as Error).message;  // Mostrar mensaje de error
+            this.mensaje = (error as Error).message;
           }
         } else {
           this.mensaje = 'Código QR no válido.';
@@ -67,21 +87,26 @@ export class HomePage {
       'ae338e4e0cbb4e4bcffaf9ce5b409feb8edd5172': 50,
       '2786f4877b9091dcad7f35751bfcf5d5ea712b2f': 100,
     };
-
-    const cleanCodigoQR = codigoQR.trim().toLowerCase();
-    const creditos = codigos[cleanCodigoQR] || 0;
-    console.log('Créditos obtenidos: ', creditos);
-    return creditos;
+    return codigos[codigoQR.trim().toLowerCase()] || 0;
   }
 
-  // Método para limpiar los créditos del usuario
   async limpiarCreditos() {
     const user = this.authService.getCurrentUser();
     if (user) {
       await this.authService.limpiarCreditos(user.uid);
       this.creditosAcumulados = 0; // Resetear el visor de créditos
-      console.log('Créditos limpiados');
+      this.contadorCreditosAdmin = {}; // Resetear el contador de admin
       this.mensaje = 'Créditos limpiados.';
     }
   }
+
+  logout() {
+    this.authService.logout().then(() => {
+      this.mensaje = 'Sesión cerrada exitosamente.';
+      this.router.navigate(['/login']);
+    }).catch((error) => {
+      this.mensaje = 'Error al cerrar sesión.';
+    });
+  }
+
 }

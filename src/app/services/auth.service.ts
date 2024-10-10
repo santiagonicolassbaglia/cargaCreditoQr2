@@ -15,13 +15,26 @@ export class AuthService {
   constructor(private auth: Auth, private firestore: Firestore, private ngZone: NgZone) {}
   login(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password)
-      .then(() => {
-        // Si necesitas actualizar el estado de Angular, puedes usar NgZone
-        this.ngZone.run(() => {
-          console.log('Usuario autenticado');
-        });
+      .then(async (userCredential) => {
+        const user: User = userCredential.user;
+  
+        // Cargar los datos del usuario desde Firestore
+        const userData = await this.getUserData(user.uid);
+        if (userData) {
+          // Aquí puedes emitir los datos que necesitas, como créditos y contadores
+          console.log('Usuario autenticado con los siguientes datos:', userData);
+          return userData;  // Puedes devolver los datos o hacer algo con ellos en la UI
+        } else {
+          console.log('No se encontraron datos del usuario en Firestore.');
+          return null;  // Return null if no user data is found
+        }
+      })
+      .catch((error) => {
+        console.error('Error al iniciar sesión:', error);
+        throw error;
       });
   }
+  
  
     register(email: string, password: string, nombre: string, id: number, perfil: string, sexo: string) {
     return createUserWithEmailAndPassword(this.auth, email, password)
@@ -51,55 +64,80 @@ export class AuthService {
   // Función para agregar créditos
   async agregarCreditos(uid: string, codigoQR: string, credito: number): Promise<void> {
     try {
-        const userRef = doc(this.firestore, `usuarios/${uid}`);
-        const userDoc = await getDoc(userRef);
-
-        if (userDoc.exists()) {
-            const userData = userDoc.data();
-            const codigosCargados = userData["codigosCargados"] || [];
-            const perfil = userData["perfil"] || 'usuario';  // Suponiendo que el perfil sea 'usuario' o 'admin'
-
-            // Verificar cuántas veces se ha cargado el código QR
-            const vecesCargado = codigosCargados.filter((codigo: string) => codigo === codigoQR).length;
-   // Lógica para perfil admin (máximo 2 veces)
-   
-   if (perfil === 'admin' && vecesCargado >= 2) {
-                throw new Error('Este código ya ha sido cargado más de dos veces (admin).');
+      const userRef = doc(this.firestore, `usuarios/${uid}`);
+      const userDoc = await getDoc(userRef);
+  
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const codigosCargados = userData['codigosCargados'] || [];
+        const perfil = userData['perfil'] || 'usuario';
+        const contadorCreditosAdmin = userData['contadorCreditosAdmin'] || {}; // Objeto para contar por cada código QR
+  
+        // Verificar cuántas veces se ha cargado el código QR
+        const vecesCargado = codigosCargados.filter((codigo: string) => codigo === codigoQR).length;
+        const vecesEscaneadoAdmin = contadorCreditosAdmin[codigoQR] || 0; // Veces que el admin ha escaneado este código
+  
+        // Lógica para perfil admin (máximo 2 veces por código)
+        if (perfil === 'admin') {
+          if (vecesEscaneadoAdmin >= 2) {
+            throw new Error('Este código ya ha sido cargado más de dos veces (admin).');
+          }
+          // Si no ha llegado al límite, incrementamos el contador específico para este código QR
+          await updateDoc(userRef, {
+            creditos: userData['creditos'] + credito,
+            codigosCargados: arrayUnion(codigoQR),
+            contadorCreditosAdmin: {
+              ...contadorCreditosAdmin,
+              [codigoQR]: vecesEscaneadoAdmin + 1 // Aumentar el contador solo para este código QR
             }
-            // Lógica para perfil normal
-            if (vecesCargado > 0 && perfil !== 'admin') {
-                throw new Error('Este código ya ha sido cargado.');
-            }
-
-          
-           
-
-            // Si todo está bien, agregamos el crédito
-            await updateDoc(userRef, {
-                creditos: userData["creditos"] + credito,
-                codigosCargados: arrayUnion(codigoQR)
-            });
-
-            console.log('Créditos agregados correctamente');
+          });
         } else {
-            throw new Error('Usuario no encontrado');
+          // Lógica para perfil normal (máximo 1 vez por código)
+          if (vecesCargado > 0) {
+            throw new Error('Este código ya ha sido cargado.');
+          }
+          // Si el código no ha sido cargado, agregamos crédito
+          await updateDoc(userRef, {
+            creditos: userData['creditos'] + credito,
+            codigosCargados: arrayUnion(codigoQR)
+          });
         }
+  
+        console.log('Créditos agregados correctamente');
+      } else {
+        throw new Error('Usuario no encontrado');
+      }
     } catch (error) {
-        console.error('Error al agregar créditos:', error);
-        throw error;
+      console.error('Error al agregar créditos:', error);
+      throw error;
     }
-}
+  }
 
-
-
-  // Función para limpiar los créditos y códigos cargados
   async limpiarCreditos(uid: string): Promise<void> {
     const userRef = doc(this.firestore, `usuarios/${uid}`);
-    await updateDoc(userRef, {
-      creditos: 0,
-      codigosCargados: []
-    });
+    const userDoc = await getDoc(userRef);
+  
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      const perfil = userData['perfil'] || 'usuario';
+  
+      const resetData: any = {
+        creditos: 0,
+        codigosCargados: []
+      };
+  
+      // Si el usuario es admin, también reiniciamos el contador de créditos por código QR
+      if (perfil === 'admin') {
+        resetData.contadorCreditosAdmin = {}; // Reiniciar los contadores de códigos QR
+      }
+  
+      await updateDoc(userRef, resetData);
+      console.log('Créditos limpiados');
+    } else {
+      throw new Error('Usuario no encontrado');
+    }
   }
+
 
   logout() {
     this.alarmActivated = false;

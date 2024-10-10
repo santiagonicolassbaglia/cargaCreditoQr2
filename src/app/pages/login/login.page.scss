@@ -1,90 +1,115 @@
 .login-container {
- //   background-image: url('../../../assets/fondoPantalla1.png'); /* Imagen de fondo */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 80%;
-    padding: 20px;
-  }
-  
-  .login-card {
-    border: 2px solid #0b619a; /* Borde azul claro */
-    border-radius: 30px;
-    padding: 30px;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.884); /* Fondo blanco con transparencia */
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.858); /* Sombra suave */
-    text-align: center;
-  }
-  
-  .login-card h2 {
-    color: #072b43; /* Azul claro */
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 10px;
-  }
-  
-  .login-card p {
-    color: #666;
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 10px;
-  }
-  
-  .form-label {
-    color: #333;
-    font-weight: bold;
-    font-size: 1.1rem;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #3498db; /* Borde azul claro */
-    border-radius: 15px;
-    background-color: #fff5f5; /* Fondo blanco rosado */
-    color: #333;
-    font-size: 1rem;
-  }
-  
-  .error-message {
-    color: #ff0000;
-    font-size: 0.8rem;
-  }
-  
-  ion-button {
-    --border-radius: 25px;
-    --background: #f1c40f; /* Amarillo claro */
-    --background-hover: #ffcc00; /* Color al pasar el cursor */
-    font-size: 1.2rem;
-    padding: 10px;
-    margin-top: 20px;
-  }
-  
-  .login-options {
-    margin-top: 40px;
-  }
-  
-  .login-options ion-button {
-    --border-radius: 20px;
-    margin-bottom: 15px;
-    font-size: 1.1rem;
-  }
-  
-  ion-toolbar {
-    --background: #ffd966; /* Color pastel en la barra */
-  }
-  
-  //agregar fondo de pantalla a la pagina
-  ion-content {
-  //  --background: url('../../../assets/fondoPantalla1.png') no-repeat center center fixed;
-    --background-size: cover;
-  }
-  
+  background-image: url('../../../assets/FondoPantalla2.avif'); /* Imagen de fondo */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  padding: 20px;
+}
+
+ 
+
+.login-card {
+ border-radius: 25px;
+ padding: 25px;
+ width: 100%;
+ max-width: 400px;
+ background-color: rgba(217, 229, 234, 0.934); /* Fondo blanco con transparencia */
+ box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Sombra suave */
+ text-align: center;
+ backdrop-filter: blur(10px); /* Desenfoque del fondo para efecto futurista */
+}
+
+/* Ajustar el tamaño de la imagen */
+.login-image {
+ width: 15rem; /* Cambia este valor según el tamaño que desees */
+ height: auto; /* Mantener la proporción */
+ margin-bottom: 15px; /* Espacio debajo de la imagen */
+}
+
+.login-card h2 {
+ color: #2a033b; /* Color blanco para mayor contraste */
+ font-size: 2.5rem;
+ margin-bottom: 20px;
+ text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto */
+}
+
+.login-card p {
+ color: #571071;
+ font-size: 1.2rem;
+ margin-bottom: 20px;
+}
+
+.form-group {
+ margin-bottom: 20px;
+}
+
+.form-label {
+ color: #333;
+ font-weight: bold;
+ font-size: 1.1rem;
+}
+
+.form-control {
+ width: 100%;
+ padding: 12px;
+ border: none;
+ border-radius: 20px;
+ background-color: rgba(0, 0, 0, 0.1); /* Fondo semitransparente */
+ color: #ffffff;
+ font-size: 1.1rem;
+ margin-top: 10px;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.error-message {
+ color: #ff0000;
+ font-size: 0.8rem;
+}
+
+.login-button {
+ --background: linear-gradient(45deg, #00bcd4, #2196f3); /* Degradado azul futurista */
+ --border-radius: 25px;
+ --padding-start: 15px;
+ --padding-end: 15px;
+ --min-height: 50px;
+ font-size: 1.2rem;
+ box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-button:hover {
+ transform: translateY(-2px); /* Efecto de levantamiento al pasar el cursor */
+ box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.register-button {
+ --background: linear-gradient(45deg, #045107, #81c784); /* Degradado verde */
+ --border-radius: 25px;
+ --min-height: 50px;
+ font-size: 1.2rem;
+ margin-top: 15px;
+}
+
+.quick-login-button {
+ --background: #f19f23;
+ --border-radius: 25px;
+ --min-height: 50px;
+ font-size: 1.2rem;
+ margin-top: 10px;
+}
+
+.login-options {
+ margin-top: 30px;
+ text-align: center;
+}
+
+ion-toolbar {
+ --background: rgba(0, 188, 212, 0.8); /* Barra de título con transparencia */
+ backdrop-filter: blur(5px);
+ color: rgb(255, 255, 255);
+}

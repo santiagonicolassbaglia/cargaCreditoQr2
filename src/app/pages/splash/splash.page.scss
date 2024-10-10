@@ -1,0 +1,57 @@
+.splash-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+  }
+  
+  .splash-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 80%;
+    z-index: -1;
+    background-image: url('../../../assets/gifFondoPantalla2.gif'); /* Cambia 'your-gif-background.gif' por tu archivo GIF */
+    background-size: cover;
+    background-position: center;
+    animation: backgroundAnimation 10s infinite; /* Animación de fondo */
+  }
+  
+  @keyframes backgroundAnimation {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(0.8); }
+    100% { filter: brightness(1); }
+  }
+  
+  .splash-logo {
+    margin: 20px 0;
+  }
+  
+  .splash-image {
+    width: 100px;
+    height: 100px;
+    animation: spin 5s linear infinite; /* Animación para girar el favicon */
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .splash-text h2,
+  .splash-text h3,
+  .splash-text h4 {
+    margin: 10px 0;
+    animation-duration: 2s;
+  }
+  
+  .splash-loader {
+    margin-top: 20px;
+  }
+  
