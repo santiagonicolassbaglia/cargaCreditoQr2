@@ -5,6 +5,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width: 100vw; /* Asegurar que ocupe todo el ancho */
     text-align: center;
     color: white;
     overflow: hidden;
@@ -14,19 +15,13 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 80%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
     z-index: -1;
-    background-image: url('../../../assets/gifFondoPantalla2.gif'); /* Cambia 'your-gif-background.gif' por tu archivo GIF */
+    background-image: url('../../../assets/gifFondoPantalla2.gif'); /* Ajusta el GIF */
     background-size: cover;
     background-position: center;
-    animation: backgroundAnimation 10s infinite; /* Animación de fondo */
-  }
-  
-  @keyframes backgroundAnimation {
-    0% { filter: brightness(1); }
-    50% { filter: brightness(0.8); }
-    100% { filter: brightness(1); }
+    background-repeat: no-repeat;
   }
   
   .splash-logo {
@@ -34,9 +29,9 @@
   }
   
   .splash-image {
-    width: 100px;
-    height: 100px;
-    animation: spin 5s linear infinite; /* Animación para girar el favicon */
+    width: 80px; /* Ajustar el tamaño del favicon */
+    height: 80px;
+    animation: spin 5s linear infinite;
   }
   
   @keyframes spin {
@@ -53,5 +48,23 @@
   
   .splash-loader {
     margin-top: 20px;
+  }
+  
+  /* Ajustes para pantallas pequeñas */
+  @media screen and (max-width: 768px) {
+    .splash-image {
+      width: 60px;
+      height: 60px;
+    }
+  
+    .splash-text h2,
+    .splash-text h3,
+    .splash-text h4 {
+      font-size: 1.2rem;
+    }
+  
+    .splash-loader {
+      margin-top: 15px;
+    }
   }
   
