@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -16,7 +16,11 @@ import { Auth } from '@angular/fire/auth';
   standalone: true,
   imports: [CommonModule, IonicModule, ReactiveFormsModule, FormsModule] 
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
+  ngOnInit() {
+    this.loginForm.reset(); // Asegurarse de que los campos están vacíos
+  }
+
   loginForm: FormGroup;
 
   // Usuarios de ingreso rápido
@@ -52,6 +56,7 @@ export class LoginPage {
       const { email, password } = this.loginForm.value;
       this.authService.login(email, password).then(() => {
         this.router.navigate(['/home']);
+        this.loginForm.reset(); // Resetear el formulario después de iniciar sesión exitosamente
       }).catch(error => {
         console.error('Login fallido', error);
       });
