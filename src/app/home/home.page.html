@@ -26,7 +26,7 @@
       <ion-card-content>
         <p>{{ mensaje }}</p>
       </ion-card-content>
-   </ion-card>
+    </ion-card>
 
     <!-- Botón para escanear QR -->
     <ion-button expand="block" color="primary" (click)="scanQrCode()" class="scan-button">
@@ -34,11 +34,24 @@
     </ion-button>
 
     <!-- Botón para limpiar créditos -->
-    <ion-button expand="block" color="danger" (click)="limpiarCreditos()" class="limpiar-button">
+    <ion-button expand="block" color="danger" (click)="showConfirmDialog()" class="limpiar-button">
       Limpiar Créditos
     </ion-button>
   </div>
-  <div class="splash-logo" style="height: 2rem; width: 10rem; margin: auto;" >
+
+  <!-- Modal de confirmación para limpiar créditos -->
+  <div *ngIf="showConfirm" class="confirm-dialog">
+    <div class="confirm-content">
+      <h2>¿Estás seguro?</h2>
+      <p>Esta acción eliminará todos tus créditos acumulados.</p>
+      <div class="button-group">
+        <ion-button expand="block" color="danger" (click)="confirmLimpiarCreditos()">Sí, limpiar</ion-button>
+        <ion-button expand="block" color="secondary" (click)="closeConfirmDialog()">Cancelar</ion-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="splash-logo" style="height: 2rem; width: 10rem; margin: auto;">
     <img src="../../../../assets/icon/favicon.png" alt="Splash Image" class="animate__animated animate__rotate splash-image"/>
   </div>
 </ion-content>

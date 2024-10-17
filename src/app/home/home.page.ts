@@ -14,9 +14,10 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
 
-  creditosAcumulados: number = 0; // Almacenar los créditos
-  contadorCreditosAdmin: { [key: string]: number } = {}; // Contador para admin por cada código QR
-  mensaje: string = ''; // Para mostrar mensajes
+  creditosAcumulados: number = 0;
+  contadorCreditosAdmin: { [key: string]: number } = {};
+  mensaje: string = '';
+  showConfirm: boolean = false; // Controlar la visibilidad del modal de confirmación
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -24,7 +25,6 @@ export class HomePage implements OnInit {
     const user = this.authService.getCurrentUser();
     if (user) {
       try {
-        // Cargar los datos del usuario al iniciar la aplicación
         const userData = await this.authService.getUserData(user.uid);
         if (userData) {
           this.creditosAcumulados = userData['creditos'] || 0;
@@ -39,6 +39,18 @@ export class HomePage implements OnInit {
     }
   }
 
+  showConfirmDialog() {
+    this.showConfirm = true; // Mostrar el modal
+  }
+
+  closeConfirmDialog() {
+    this.showConfirm = false; // Cerrar el modal sin limpiar créditos
+  }
+
+  async confirmLimpiarCreditos() {
+    this.showConfirm = false; // Cerrar el modal
+    await this.limpiarCreditos(); // Llamar a la función de limpiar créditos
+  }
   async scanQrCode() {
     const user = this.authService.getCurrentUser();
     if (!user) {
@@ -90,19 +102,20 @@ export class HomePage implements OnInit {
     return codigos[codigoQR.trim().toLowerCase()] || 0;
   }
 
+
   async limpiarCreditos() {
     const user = this.authService.getCurrentUser();
     if (user) {
       await this.authService.limpiarCreditos(user.uid);
-      this.creditosAcumulados = 0; // Resetear el visor de créditos
-      this.contadorCreditosAdmin = {}; // Resetear el contador de admin
+      this.creditosAcumulados = 0;
+      this.contadorCreditosAdmin = {};
       this.mensaje = 'Créditos limpiados.';
     }
   }
 
   logout() {
     this.authService.logout().then(() => {
-      this.mensaje = 'Sesión cerrada exitosamente.';
+    
       this.router.navigate(['/login']);
     }).catch((error) => {
       this.mensaje = 'Error al cerrar sesión.';
