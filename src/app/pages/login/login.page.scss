@@ -1,5 +1,5 @@
 .login-container {
-  background-image: url('../../../assets/FondoPantalla2.avif'); /* Imagen de fondo */
+  //background-image: url('../../../assets/FondoPantalla2.avif'); /* Imagen de fondo */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -7,109 +7,97 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80%;
-  padding: 20px;
+  height: 100vh; /* Asegura que ocupe toda la altura de la pantalla */
+  padding: 10px; /* Reducir el padding */
 }
-
- 
 
 .login-card {
- border-radius: 25px;
- padding: 25px;
- width: 100%;
- max-width: 400px;
- background-color: rgba(217, 229, 234, 0.934); /* Fondo blanco con transparencia */
- box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Sombra suave */
- text-align: center;
- backdrop-filter: blur(10px); /* Desenfoque del fondo para efecto futurista */
+  border-radius: 20px; /* Reducir el radio del borde */
+  padding: 20px; /* Reducir el padding */
+  width: 100%;
+  max-width: 26rem; /* Reducir el tamaño máximo */
+  background-color: rgba(217, 229, 234, 0.934); /* Fondo blanco con transparencia */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  text-align: center;
+  backdrop-filter: blur(10px); /* Desenfoque del fondo */
 }
 
-/* Ajustar el tamaño de la imagen */
 .login-image {
- width: 15rem; /* Cambia este valor según el tamaño que desees */
- height: auto; /* Mantener la proporción */
- margin-bottom: 15px; /* Espacio debajo de la imagen */
+  width: 7rem; /* Reducir el tamaño de la imagen */
+  height: auto; /* Mantener la proporción */
+  margin-bottom: 10px; /* Reducir el margen */
 }
-
 .login-card h2 {
- color: #2a033b; /* Color blanco para mayor contraste */
- font-size: 2.5rem;
- margin-bottom: 20px;
- text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto */
-}
-
-.login-card p {
- color: #571071;
- font-size: 1.2rem;
- margin-bottom: 20px;
-}
+  color: #2a033b; /* Color blanco para mayor contraste */
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto */
+ }
+ 
+ .login-card p {
+  color: #571071;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+ }
 
 .form-group {
- margin-bottom: 20px;
+  margin-bottom: 15px; /* Reducir el espacio entre campos */
 }
-
 .form-label {
- color: #333;
- font-weight: bold;
- font-size: 1.1rem;
-}
+  color: #333;
+  font-weight: bold;
+  font-size: 1.1rem;
+ }
 
 .form-control {
- width: 100%;
- padding: 12px;
- border: none;
- border-radius: 20px;
- background-color: rgba(0, 0, 0, 0.1); /* Fondo semitransparente */
- color: #ffffff;
- font-size: 1.1rem;
- margin-top: 10px;
- box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
-}
-
-.error-message {
- color: #ff0000;
- font-size: 0.8rem;
+  width: 100%;
+  padding: 10px; /* Reducir el padding */
+  border: none;
+  border-radius: 15px; /* Reducir el radio del borde */
+  background-color: rgba(0, 0, 0, 0.1); /* Fondo semitransparente */
+  color: #ffffff;
+  font-size: 1rem; /* Reducir el tamaño del texto */
+  margin-top: 8px; /* Reducir el margen superior */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra más pequeña */
 }
 
 .login-button {
- --background: linear-gradient(45deg, #00bcd4, #2196f3); /* Degradado azul futurista */
- --border-radius: 25px;
- --padding-start: 15px;
- --padding-end: 15px;
- --min-height: 50px;
- font-size: 1.2rem;
- box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
- transition: transform 0.3s ease, box-shadow 0.3s ease;
+  --background: linear-gradient(45deg, #00bcd4, #2196f3); /* Degradado azul */
+  --border-radius: 20px; /* Reducir el radio del borde */
+  --padding-start: 12px; /* Reducir el padding lateral */
+  --padding-end: 12px; /* Reducir el padding lateral */
+  --min-height: 45px; /* Reducir la altura mínima */
+  font-size: 1.1rem; /* Reducir el tamaño del texto */
+  margin-top: 10px; /* Reducir el margen superior */
 }
-
 .login-button:hover {
- transform: translateY(-2px); /* Efecto de levantamiento al pasar el cursor */
- box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
+  transform: translateY(-2px); /* Efecto de levantamiento al pasar el cursor */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+ }
+ 
 
 .register-button {
- --background: linear-gradient(45deg, #045107, #81c784); /* Degradado verde */
- --border-radius: 25px;
- --min-height: 50px;
- font-size: 1.2rem;
- margin-top: 15px;
-}
-
-.quick-login-button {
- --background: #f19f23;
- --border-radius: 25px;
- --min-height: 50px;
- font-size: 1.2rem;
- margin-top: 10px;
-}
-
+  --background: linear-gradient(45deg, #045107, #81c784); /* Degradado verde */
+  --border-radius: 25px;
+  --min-height: 50px;
+  font-size: 1.2rem;
+  margin-top: 15px;
+ }
+ 
+ .quick-login-button {
+  --background: #f19f23;
+  --border-radius: 25px;
+  --min-height: 50px;
+  font-size: 1.2rem;
+  margin-top: 10px;
+ } 
 .login-options {
- margin-top: 30px;
- text-align: center;
+  margin-top: 20px; /* Reducir el espacio entre las opciones de login */
+  text-align: center;
 }
 
 ion-toolbar {
- --background: rgba(0, 188, 212, 0.8); /* Barra de título con transparencia */
- backdrop-filter: blur(5px);
- color: rgb(255, 255, 255);
+  --background: rgba(0, 188, 212, 0.8); /* Barra de título con transparencia */
+  backdrop-filter: blur(5px);
+  color: rgb(255, 255, 255);
 }
